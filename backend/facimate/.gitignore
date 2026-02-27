@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+backend/facimate/src/main/resources/application.properties
