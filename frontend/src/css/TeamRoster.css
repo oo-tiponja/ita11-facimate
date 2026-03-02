@@ -1,0 +1,56 @@
+.team-roster-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  margin-top: 24px;
+}
+
+.team-roster-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.team-roster-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.team-roster-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.team-roster-item:last-child {
+  border-bottom: none;
+}
+
+.team-roster-item:hover {
+  background-color: #fafafa;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-left: -8px;
+  margin-right: -8px;
+  border-radius: 6px;
+}
+
+.team-roster-item.inactive {
+  opacity: 0.6;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .team-roster-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .team-roster-header > div:last-child {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+}
