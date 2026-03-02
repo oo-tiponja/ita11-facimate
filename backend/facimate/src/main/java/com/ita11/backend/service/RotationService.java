@@ -23,6 +23,7 @@ public class RotationService {
     private final TeamMemberRepository teamMemberRepository;
     private final CeremonyRepository ceremonyRepository;
     private final RotationStateRepository rotationStateRepository;
+    private final NotificationService notificationService;
 
     public List<DashboardDto> getDashboard() {
         List<Ceremony> ceremonies = ceremonyRepository.findAll();
@@ -104,10 +105,16 @@ public class RotationService {
 
         int currentIndex = findMemberIndex(activeMembers, state.getCurrentMemberId());
         int nextIndex = (currentIndex + 1) % activeMembers.size();
+        TeamMember newFacilitator = activeMembers.get(nextIndex);
 
-        state.setCurrentMemberId(activeMembers.get(nextIndex).getId());
+        state.setCurrentMemberId(newFacilitator.getId());
         state.setLastUpdated(LocalDateTime.now());
         rotationStateRepository.save(state);
+
+        ceremonyRepository.findById(ceremonyId).ifPresent(ceremony -> {
+            notificationService.sendTeamsNotification(ceremony, newFacilitator, "Skipped");
+            notificationService.sendEmailNotification(ceremony, newFacilitator);
+        });
     }
 
     public void assignFacilitator(Long ceremonyId, Long memberId) {
@@ -119,6 +126,13 @@ public class RotationService {
         state.setCurrentMemberId(memberId);
         state.setLastUpdated(LocalDateTime.now());
         rotationStateRepository.save(state);
+
+        Ceremony ceremony = ceremonyRepository.findById(ceremonyId).orElse(null);
+        TeamMember facilitator = teamMemberRepository.findById(memberId).orElse(null);
+        if (ceremony != null && facilitator != null) {
+            notificationService.sendTeamsNotification(ceremony, facilitator, "Assigned");
+            notificationService.sendEmailNotification(ceremony, facilitator);
+        }
     }
 
     public void autoSkipToNextActive(RotationState state, List<TeamMember> activeMembers) {
