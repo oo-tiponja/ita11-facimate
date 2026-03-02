@@ -1,0 +1,49 @@
+.meeting-rooms-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  margin-bottom: 24px;
+}
+
+.meeting-rooms-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.meeting-room-item {
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.meeting-room-item:last-child {
+  border-bottom: none;
+}
+
+.meeting-room-item:hover {
+  background-color: #fafafa;
+  padding-left: 8px;
+  padding-right: 8px;
+  margin-left: -8px;
+  margin-right: -8px;
+  border-radius: 6px;
+}
+
+.meeting-room-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.meeting-room-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.ant-badge-status-dot {
+  width: 8px;
+  height: 8px;
+}
