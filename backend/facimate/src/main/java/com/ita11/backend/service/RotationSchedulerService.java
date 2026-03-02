@@ -20,6 +20,8 @@ public class RotationSchedulerService {
     private final CeremonyRepository ceremonyRepository;
     private final RotationStateRepository rotationStateRepository;
     private final TeamMemberRepository teamMemberRepository;
+    private final NotificationService notificationService;
+
 
     private static final ZoneId MANILA = ZoneId.of("Asia/Manila");
 
@@ -88,13 +90,17 @@ public class RotationSchedulerService {
 
         int currentIndex = findMemberIndex(activeMembers, state.getCurrentMemberId());
         int nextIndex = (currentIndex + 1) % activeMembers.size();
+        TeamMember newFacilitator = activeMembers.get(nextIndex);
 
-        state.setCurrentMemberId(activeMembers.get(nextIndex).getId());
+        state.setCurrentMemberId(newFacilitator.getId());
         state.setLastUpdated(LocalDateTime.now());
         state.setLastRotated(LocalDateTime.now(MANILA));
         rotationStateRepository.save(state);
 
-        log.info("Rotated {} to: {}", ceremony.getName(), activeMembers.get(nextIndex).getName());
+        log.info("Rotated {} to: {}", ceremony.getName(), newFacilitator.getName());
+
+        notificationService.sendTeamsNotification(ceremony, newFacilitator, "Rotation");
+        notificationService.sendEmailNotification(ceremony, newFacilitator);
     }
 
     private boolean isSprintStartMonday() {
