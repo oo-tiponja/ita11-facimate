@@ -113,7 +113,6 @@ public class RotationService {
 
         ceremonyRepository.findById(ceremonyId).ifPresent(ceremony -> {
             notificationService.sendTeamsNotification(ceremony, newFacilitator, "Skipped");
-            notificationService.sendEmailNotification(ceremony, newFacilitator);
         });
     }
 
@@ -131,7 +130,6 @@ public class RotationService {
         TeamMember facilitator = teamMemberRepository.findById(memberId).orElse(null);
         if (ceremony != null && facilitator != null) {
             notificationService.sendTeamsNotification(ceremony, facilitator, "Assigned");
-            notificationService.sendEmailNotification(ceremony, facilitator);
         }
     }
 

@@ -100,7 +100,6 @@ public class RotationSchedulerService {
         log.info("Rotated {} to: {}", ceremony.getName(), newFacilitator.getName());
 
         notificationService.sendTeamsNotification(ceremony, newFacilitator, "Rotation");
-        notificationService.sendEmailNotification(ceremony, newFacilitator);
     }
 
     private boolean isSprintStartMonday() {

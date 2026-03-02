@@ -36,7 +36,7 @@ public class NotificationService {
             Map<String, Object> payload = new HashMap<>();
             payload.put("ceremonyName", ceremony.getName());
             payload.put("facilitatorName", facilitator.getName());
-            payload.put("facilitatorEmail", facilitator.getEmail());
+            payload.put("facilitatorEmail", facilitator.getEmail().trim());
             payload.put("schedule", ceremony.getSchedule());
             payload.put("action", action);
 
@@ -49,44 +49,5 @@ public class NotificationService {
         } catch (Exception e) {
             log.error("Failed to send Teams notification for ceremony {}: {}", ceremony.getName(), e.getMessage());
         }
-    }
-
-    @Async
-    public void sendEmailNotification(Ceremony ceremony, TeamMember facilitator) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-            emailNotificationBodyHelper(ceremony, facilitator, helper);
-
-            mailSender.send(message);
-            log.info("Email notification sent to {}", facilitator.getEmail());
-        } catch (Exception e) {
-            log.error("Failed to send email notification to {}: {}", facilitator.getEmail(), e.getMessage());
-        }
-    }
-
-    private static void emailNotificationBodyHelper(Ceremony ceremony, TeamMember facilitator, MimeMessageHelper helper) throws MessagingException {
-        helper.setTo(facilitator.getEmail());
-        helper.setSubject("You're facilitating " + ceremony.getName() + " — " + ceremony.getSchedule());
-        helper.setText(String.format("""
-            <html><body>
-            <p>Hi <strong>%s</strong>,</p>
-            <p>You've been assigned as facilitator for:</p>
-            <ul>
-                <li><strong>Ceremony:</strong> %s</li>
-                <li><strong>Type:</strong> %s</li>
-                <li><strong>Schedule:</strong> %s</li>
-            </ul>
-            <p>If unavailable, update your status in the app.</p>
-            <a href="%s">Open Facimate App</a>
-            </body></html>
-            """,
-                facilitator.getName(),
-                ceremony.getName(),
-                ceremony.getCeremonyType().toString(),
-                ceremony.getSchedule(),
-                HTTP_LOCALHOST_5173
-        ), true);
     }
 }
