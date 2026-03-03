@@ -7,15 +7,15 @@ const { Title, Text } = Typography;
 export default function MeetingRooms() {
   const rooms = [
     {
-      name: "Westernlands",
+      name: "MNL-3 WESTERNLANDS Room",
       status: "available",
     },
     {
-      name: "Crownlands",
+      name: "MNL-3 CROWNLANDS Room",
       status: "busy",
     },
     {
-      name: "Stormlands",
+      name: "MNL-3 STORMLANDS Room",
       status: "upcoming",
     },
   ];
@@ -29,13 +29,12 @@ export default function MeetingRooms() {
     return statusMap[status] || "default";
   };
 
-  const openOutlookEvent = (roomName) => {
-    const subject = encodeURIComponent("Meeting in " + roomName);
-    const body = encodeURIComponent("Meeting scheduled via FaciMate.");
+  const openOutlookEvent = () => {
+    const body = encodeURIComponent("Scheduled via FaciMate");
     const start = "20260214T090000";
     const end = "20260214T100000";
 
-    const url = `https://outlook.office.com/calendar/0/deeplink/compose?subject=${subject}&body=${body}&startdt=${start}&enddt=${end}`;
+    const url = `https://outlook.office.com/calendar/0/deeplink/compose?subject=&body=${body}&startdt=${start}&enddt=${end}`;
 
     window.open(url, "_blank");
   };
@@ -43,27 +42,25 @@ export default function MeetingRooms() {
 
   return (
     <Card className='meeting-rooms-card' variant='borderless'>
-      <Title level={5} style={{ margin: 0, marginBottom: "16px", display: "flex", alignItems: "center" }}>
-        <EnvironmentOutlined style={{ marginRight: "8px" }} />
-        Meeting Rooms
-      </Title>
-      {/* with outlook button */}
+      <div className='meeting-rooms-header' style={{display: 'flex', justifyContent: 'space-between'}}>
+        <Title level={5} style={{ margin: 0, display: "flex", alignItems: "center" }}>
+          <EnvironmentOutlined style={{ marginRight: "8px" }} />
+          Meeting Rooms
+        </Title>
+        <Button type='link' icon={<CalendarOutlined />} onClick={() => openOutlookEvent({rooms: rooms.map(r => r.name).join(", ")})}>
+          Schedule in Outlook
+        </Button>
+      </div>
+
       <div className='meeting-rooms-list'>
         {rooms.map((room, index) => (
           <div key={index} className='meeting-room-item'>
-            <div className='meeting-room-row'>
+            <div className='meeting-room-row' style={{paddingLeft: '20px'}}>
               <div className='meeting-room-left'>
                 <Badge status={getStatusColor(room.status)} />
                 <Text strong>{room.name}</Text>
               </div>
 
-              <Button
-                size='small'
-                type='default'
-                icon={<CalendarOutlined />}
-                onClick={() => openOutlookEvent(room.name)}>
-                Add Event
-              </Button>
             </div>
           </div>
         ))}
