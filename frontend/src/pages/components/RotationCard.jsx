@@ -7,6 +7,7 @@ const {Text} = Typography;
 export default function RotationCard({ceremony, onSkip, onRetain, onReplace}) {
     const isNotSet = ceremony.currentFacilitator === "Not set";
 
+
     const getInitials = (name) => {
         if (!name || name === "Not set" || name === "N/A") return "?";
         return name
@@ -35,16 +36,12 @@ export default function RotationCard({ceremony, onSkip, onRetain, onReplace}) {
 
     const ceremonyStyle = getCeremonyColor(ceremony.ceremonyName);
 
-    // Parse previous facilitators (assuming it's an array or comma-separated)
-    const previousFacilitators = Array.isArray(ceremony.previousFacilitator)
-        ? ceremony.previousFacilitator
-        : ceremony.previousFacilitator
+    const previousFacilitators = Array.isArray(ceremony.previousFacilitator) ? ceremony.previousFacilitator : ceremony.previousFacilitator
         ?.split(",")
         .map((f) => f.trim())
         .filter(Boolean) || [];
 
-    return (
-        <div className='rotation-card'>
+    return (<div className='rotation-card'>
             <div className='rotation-card-header'>
                 <Tag color={ceremonyStyle.tag} style={{fontSize: "12px", fontWeight: "500", border: "none"}}>
                     {ceremony.ceremonyName}
@@ -55,7 +52,7 @@ export default function RotationCard({ceremony, onSkip, onRetain, onReplace}) {
             </div>
 
             <div className='rotation-card-body'>
-                {/* Current Facilitator */}
+
                 <div className='facilitator-section'>
                     <Text type='secondary' className='section-label'>
                         CURRENT FACILITATOR
@@ -81,7 +78,7 @@ export default function RotationCard({ceremony, onSkip, onRetain, onReplace}) {
                     </div>
                 </div>
 
-                {/* Next in Rotation */}
+
                 <div className='facilitator-section'>
                     <Text type='secondary' className='section-label'>
                         NEXT IN ROTATION
@@ -94,28 +91,24 @@ export default function RotationCard({ceremony, onSkip, onRetain, onReplace}) {
                     </div>
                 </div>
 
-                {/* Previous */}
+
                 <div className='facilitator-section'>
                     <Text type='secondary' className='section-label'>
                         PREVIOUS
                     </Text>
                     <Avatar.Group max={{count: 3}} size={40}>
-                        {previousFacilitators.length > 0 ? (
-                            previousFacilitators.map((facilitator, index) => (
+                        {previousFacilitators.length > 0 ? (previousFacilitators.map((facilitator, index) => (
                                 <Avatar key={index} style={{backgroundColor: getColor(facilitator)}}>
                                     {getInitials(facilitator)}
-                                </Avatar>
-                            ))
-                        ) : (
+                                </Avatar>))) : (
                             <Avatar style={{backgroundColor: getColor(ceremony.previousFacilitator)}}>
                                 {getInitials(ceremony.previousFacilitator)}
-                            </Avatar>
-                        )}
+                            </Avatar>)}
                     </Avatar.Group>
                 </div>
             </div>
 
-            {/* Action Buttons */}
+
             <div className='rotation-card-actions'>
                 <Button
                     block
@@ -132,6 +125,5 @@ export default function RotationCard({ceremony, onSkip, onRetain, onReplace}) {
                     Assign
                 </Button>
             </div>
-        </div>
-    );
+        </div>);
 }
