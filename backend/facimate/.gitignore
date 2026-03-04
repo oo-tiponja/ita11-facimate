@@ -32,5 +32,30 @@ build/
 ### VS Code ###
 .vscode/
 
+### Sensitive Configuration Files ###
+# CRITICAL: Never commit configuration files with credentials
+src/main/resources/application.properties
+src/main/resources/application-dev.properties
+src/main/resources/application-local.properties
 
-backend/facimate/src/main/resources/application.properties
+# Environment Variables
+.env
+.env.local
+.env.*.local
+.env.prod
+
+### OS Files ###
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+### IDE Files ###
+*.orig
+*.rej
+*.iml
+
+### Logs ###
+*.log
+logs/

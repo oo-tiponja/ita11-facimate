@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = "http://localhost:8080/api";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 // Create axios instance with default config
 const apiClient = axios.create({
@@ -16,15 +16,12 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
-      // Server responded with error
       console.error("API Error:", error.response.data);
       return Promise.reject(error.response.data.message || "An error occurred");
     } else if (error.request) {
-      // Request made but no response
       console.error("Network Error:", error.request);
       return Promise.reject("Network error. Please check your connection.");
     } else {
-      // Something else happened
       console.error("Error:", error.message);
       return Promise.reject(error.message);
     }
@@ -54,11 +51,10 @@ export const api = {
   updateCeremony: (id, ceremony) => apiClient.put(`/ceremonies/${id}`, ceremony),
   deleteCeremony: (id) => apiClient.delete(`/ceremonies/${id}`),
 
-  // Notifications (if you want to add this)
-  getNotifications: () => apiClient.get("/notifications"),
+  // Notifications
+  getRecentNotifications: () => apiClient.get("/notifications/recent"),
   markAsRead: (id) => apiClient.put(`/notifications/${id}/read`),
 
-  // Meeting Rooms (if you want to add this)
   getMeetingRooms: () => apiClient.get("/meeting-rooms"),
 };
 

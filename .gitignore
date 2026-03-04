@@ -1,0 +1,81 @@
+# Project-wide .gitignore
+
+### IDE & Editor ###
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+### Environment Variables - NEVER COMMIT ###
+.env
+.env.local
+.env.*.local
+.env.prod
+.env.development.local
+.env.test.local
+.env.production.local
+
+### Configuration Files with Secrets ###
+# Backend
+backend/facimate/src/main/resources/application.properties
+backend/facimate/src/main/resources/application-dev.properties
+backend/facimate/src/main/resources/application-local.properties
+
+### Build Artifacts ###
+# Backend
+target/
+build/
+.gradle/
+*.class
+*.jar
+
+# Frontend
+node_modules/
+dist/
+dist-ssr/
+.next/
+out/
+
+### Logs ###
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
+
+### OS Files ###
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+### Temporary Files ###
+*.tmp
+*.bak
+*.orig
+*.rej
+
+### Maven ###
+.mvn/wrapper/maven-wrapper.jar
+.m2/
+
+### Node ###
+.npm
+.node-gyp
+
+### Misc ###
+.cache
+.eslintcache
+.prettierignore
+.prettierignore.backup
+.vuepress
+dist
+.cache/
+.vuepress/dist
+

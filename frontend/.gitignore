@@ -12,6 +12,15 @@ dist
 dist-ssr
 *.local
 
+# Environment Variables - CRITICAL: Never commit .env files
+.env
+.env.local
+.env.*.local
+.env.prod
+.env.development.local
+.env.test.local
+.env.production.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,3 +31,23 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# OS Files
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Build
+build/
+out/
+
+# IDE
+*.iml
+*.orig
+*.rej
+
+# Dependencies lock files (optional - usually committed)
+# package-lock.json
+# yarn.lock
+
